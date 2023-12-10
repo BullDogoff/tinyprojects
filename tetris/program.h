@@ -32,8 +32,6 @@ private:
 	uint8_t PlaceFigure();
 	uint8_t NewFigure();
 
-	uint16_t 
-
 	Glass _glass;
 	Figure _figure, _nextFigure, _phantomFigure;
 

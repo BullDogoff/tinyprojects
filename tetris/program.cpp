@@ -31,6 +31,7 @@ uint8_t Game::DoStep() {
 
 	if (_kbhit()) {
 		keycode = _getch();
+		int gap = 0;
 		std::cout << "keycode = " << keycode << "\n";
 
 		switch (keycode)
@@ -40,9 +41,6 @@ uint8_t Game::DoStep() {
 			break;
 
 		case BD_GAME_KEYCODE__ENTER:
-			this->_figure = this->_nextFigure;
-			if (!this->_figure.IsActive()) this->_figure.Switch();;
-			this->_nextFigure.Generate();
 			break;
 
 		case BD_GAME_KEYCODE__LEFT:
@@ -51,6 +49,17 @@ uint8_t Game::DoStep() {
 		case BD_GAME_KEYCODE__UP:
 			if (!this->CheckMovement(keycode, 1))
 				this->_figure.Move(keycode);
+			break;
+
+		case BD_GAME_KEYCODE__SPACE:
+			while (!this->CheckMovement(BD_GAME_KEYCODE__DOWN, gap + 1))
+				gap++;
+
+			if (this->_figure.IsActive())
+				this->_figure.Move(BD_GAME_KEYCODE__DOWN, gap);
+
+			this->PlaceFigure();
+			this->NewFigure();
 			break;
 
 		case BD_GAME_KEYCODE__C:
@@ -73,15 +82,12 @@ uint8_t Game::DoStep() {
 			if (!this->CheckMovement(BD_GAME_KEYCODE__DOWN, 1))
 				this->_figure.Move(BD_GAME_KEYCODE__DOWN, 1);
 			else {
-				std::vector <Cell> cell = this->_figure.GetCoordinates();
-				for (auto it = cell.begin(); it != cell.end(); it++)
-					this->_glass.PutCell(it->X, it->Y);
-				this->_figure.Switch();
-				this->_figure = this->_nextFigure;
-				this->_nextFigure.Generate();
-				this->_figure.Switch();
+				this->PlaceFigure();
+				this->NewFigure();
 			}
 		}
+		else
+			this->NewFigure();
 		this->Redraw();
 		this->_lastTime = std::chrono::system_clock::now();
 	}
@@ -127,8 +133,12 @@ uint8_t Game::Redraw() {
 		std::cout << "00";
 	std::cout << "00\n";
 
+
+
+#ifdef DEBUG
 	std::cout << "millis: " << _dTime << "\n";
 	std::cout << "figX " << (int)this->_figure.GetPosition().first << " | figY " << (int)this->_figure.GetPosition().second << "\n";
+#endif // DEBUG
 
 	return 0;
 }
@@ -151,5 +161,22 @@ uint8_t Game::CheckMovement(uint8_t dir, uint8_t dist) {
 			return 1;
 	}
 
+	return 0;
+}
+
+uint8_t Game::PlaceFigure() {
+	if (this->_figure.IsActive()) {
+		std::vector <Cell> cell = this->_figure.GetCoordinates();
+		for (auto it = cell.begin(); it != cell.end(); it++)
+			this->_glass.PutCell(it->X, it->Y);
+		this->_figure.Switch();
+	}
+	return 0;
+}
+
+uint8_t Game::NewFigure() {
+	this->_figure = this->_nextFigure;
+	if (!this->_figure.IsActive()) this->_figure.Switch();;
+	this->_nextFigure.Generate();
 	return 0;
 }

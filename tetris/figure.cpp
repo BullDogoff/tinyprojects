@@ -14,7 +14,7 @@
 // class Figure
 
 Figure::Figure() {
-	this->_positionX = BD_GLASS__HEIGHT - 4;
+	this->_positionX = BD_GLASS__HEIGHT - 2;
 	this->_positionY = BD_GLASS__WIDTH / 2;
 
 	for (int i = 0; i < 4; i++)

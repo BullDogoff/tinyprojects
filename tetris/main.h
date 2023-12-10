@@ -32,8 +32,11 @@
 #define BD_GAME_KEYCODE__LEFT 75
 #define BD_GAME_KEYCODE__RIGHT 77
 #define BD_GAME_KEYCODE__DOWN 80
+#define BD_GAME_KEYCODE__SPACE 32
 
 #define BD_GLASS__WIDTH 10
 #define BD_GLASS__HEIGHT 20
+
+#define DEBUG
 
 #endif // !MAIN_H

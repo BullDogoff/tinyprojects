@@ -29,6 +29,10 @@ public:
 	bool IsRunning() {return this->_running;}
 private:
 	uint8_t CheckMovement(uint8_t, uint8_t dist = 1);
+	uint8_t PlaceFigure();
+	uint8_t NewFigure();
+
+	uint16_t 
 
 	Glass _glass;
 	Figure _figure, _nextFigure, _phantomFigure;

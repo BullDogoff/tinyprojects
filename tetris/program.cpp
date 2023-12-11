@@ -14,6 +14,7 @@
 
 Game::Game() {
 	this->_running = true;
+	this->_points = 0;
 	this->_velocity = 1000;
 	this->_lastTime = std::chrono::system_clock::now();
 	this->_dTime = std::chrono::duration <double> (0);
@@ -73,9 +74,11 @@ uint8_t Game::DoStep() {
 	}
 	else
 		keycode = 0;
-
-	if (this->_glass.Check())
+	
+	uint8_t pts = this->_glass.Check();
+	if (pts)
 		this->Redraw();
+	this->_points += pts;
 
 	if (_dTime > std::chrono::milliseconds(BD_GAME_TICK)) {
 		if (this->_figure.IsActive()) {
@@ -133,10 +136,12 @@ uint8_t Game::Redraw() {
 		std::cout << "00";
 	std::cout << "00\n";
 
+	std::cout << this->_points << " pts\n\n";
+
 
 
 #ifdef DEBUG
-	std::cout << "millis: " << _dTime << "\n";
+	std::cout << "\n\nmillis: " << _dTime << "\n";
 	std::cout << "figX " << (int)this->_figure.GetPosition().first << " | figY " << (int)this->_figure.GetPosition().second << "\n";
 #endif // DEBUG
 

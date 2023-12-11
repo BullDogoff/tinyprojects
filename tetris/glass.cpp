@@ -36,7 +36,7 @@ uint8_t Glass::Randomize() {
 }
 
 uint8_t Glass::Check() {
-	bool checked = false;
+	uint8_t checked = 0;
 	for (auto i = this->_cell.begin(); i != this->_cell.end(); i++) {
 		bool fullString = true;
 
@@ -51,7 +51,7 @@ uint8_t Glass::Check() {
 				*n = *(n + 1);
 			}
 			*(this->_cell.end() - 1) = std::vector <uint8_t>(BD_GLASS__WIDTH, 0);
-			checked = true;
+			checked++;
 		}
 	}
 	return checked;

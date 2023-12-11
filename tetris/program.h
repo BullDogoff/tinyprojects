@@ -35,6 +35,7 @@ private:
 	Glass _glass;
 	Figure _figure, _nextFigure, _phantomFigure;
 
+	uint32_t _points;
 
 	uint16_t _velocity; // in millis
 	std::chrono::time_point <std::chrono::system_clock> _lastTime; // in millis
